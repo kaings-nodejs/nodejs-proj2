@@ -22,10 +22,12 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getEditProduct = (req, res, next) => {
   const productId = req.params.productId;
+  const editMode = req.query.edit;
   Product.fetchAll(data => {
     const allProducts = data;
     const editedProduct = allProducts.filter(product => product.id === productId);
     // console.log('editedProduct..... ', editedProduct)
+    console.log('editMode..... ', editMode);
 
     res.render('admin/edit-product', {
       pageTitle: 'Edit Product',
