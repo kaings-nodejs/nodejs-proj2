@@ -20,6 +20,44 @@ exports.postAddProduct = (req, res, next) => {
   res.redirect('/');
 };
 
+exports.getEditProduct = (req, res, next) => {
+  const productId = req.params.productId;
+  Product.fetchAll(data => {
+    const allProducts = data;
+    const editedProduct = allProducts.filter(product => product.id === productId);
+    // console.log('editedProduct..... ', editedProduct)
+
+    res.render('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      path: '/admin/edit-product',
+      formsCSS: true,
+      productCSS: true,
+      activeAddProduct: true,
+      editedProduct: editedProduct
+    });
+  });
+};
+
+/* 1st approach to update edited product */
+exports.postEditProduct = (req, res, next) => {
+  // console.log('editedProduct_requestBody..... ', req.body);
+  const productId = req.params.productId;
+
+  Product.fetchAll(data => {
+    const allProducts = data;
+    const editedProductIndex = allProducts.findIndex(product => product.id === productId);
+    // console.log('editedProductIndex..... ', editedProductIndex);
+
+    const updatedProducts = [...allProducts];
+    // console.log('(BFR)editedProducts..... ', updatedProducts);
+
+    updatedProducts[editedProductIndex] = req.body;
+    // console.log('(AFT)editedProducts..... ', updatedProducts);
+  });
+
+};
+
+
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
     res.render('admin/products', {

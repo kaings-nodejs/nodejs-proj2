@@ -26,6 +26,7 @@ module.exports = class Product {
   }
 
   save() {
+    this.id = (Math.random()*10).toString();   // simple test: create unique id for each product in string (this might not be totally unique)
     getProductsFromFile(products => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => {
